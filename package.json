@@ -1,0 +1,37 @@
+{
+  "name": "Polymorphic",
+  "version": "1.0.0",
+  "description": "Create functions with different argument signatures for different code flows",
+  "main": "lib/polymorphic.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/lab -f -t 100 -m 3000",
+    "test-coverage": "./node_modules/.bin/lab -f -r html -m 3000 -o report.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/konfirm/node-polymorphic.git"
+  },
+  "keywords": [
+    "polymorph",
+    "polymorphic",
+    "variadic",
+    "overloading"
+  ],
+  "author": "Rogier Spieker",
+  "license": "GPLv2",
+  "bugs": {
+    "url": "https://github.com/konfirm/node-polymorphic/issues"
+  },
+  "homepage": "https://github.com/konfirm/node-polymorphic",
+  "devDependencies": {
+    "code": "^1.4.0",
+    "coveralls": "^2.11.2",
+    "lab": "^5.6.1"
+  },
+  "engines": {
+    "node": ">=0.10"
+  }
+}
