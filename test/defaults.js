@@ -64,7 +64,7 @@ lab.experiment('Multiple default arguments', function() {
 		}
 
 		picky.signature(
-			'int, number q=1',
+			'int, int q=1',
 			function(a, b) {
 				return 'int#' + b;
 			}
@@ -72,7 +72,7 @@ lab.experiment('Multiple default arguments', function() {
 		);
 
 		picky.signature(
-			'float, number q=2',
+			'float, float q=2.1',
 			function(a, b) {
 				return 'float#' + b;
 			}
@@ -112,23 +112,31 @@ lab.experiment('Multiple default arguments', function() {
 		);
 
 		picky.signature(
-			'bool, number q=7',
+			'bool, bool q=true',
 			function(a, b) {
-				return 'bool#' + b;
+				return 'bool#' + (b ? 'true' : 'false');
 			}
 
 		);
 
+		picky.signature(
+			'bool, bool, bool q=1',
+			function(a, b) {
+				return 'boolbool#' + (b ? 'true' : 'false');
+			}
+
+		);
 
 		//  EXECUTION
 		lab.test('proper defaults', function(done) {
 			Code.expect(picky(100)).to.equal('int#1');
-			Code.expect(picky(Math.PI)).to.equal('float#2');
+			Code.expect(picky(Math.PI)).to.equal('float#2.1');
 			Code.expect(picky('Foo')).to.equal('string#3');
 			Code.expect(picky({name:'foo'})).to.equal('object#4');
 			Code.expect(picky(['foo'])).to.equal('array#5');
 			Code.expect(picky(new Foo())).to.equal('Foo#6');
-			Code.expect(picky(true)).to.equal('bool#7');
+			Code.expect(picky(true)).to.equal('bool#true');
+			Code.expect(picky(true, true)).to.equal('boolbool#true');
 
 			done();
 		});
