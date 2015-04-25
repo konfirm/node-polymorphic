@@ -31,7 +31,7 @@ multiply.signature('string, string', function(a, b) {
 //  now lets call it again with the same arguments
 console.log(multiply('3', '4'));  //  12
 
-//  need default values for arguments which are left out?
+//  need default values for arguments which may be left out?
 multiply.signature('number, number myDefault=4', 'string, string myDefault=5', function(a, val) {
 	return multiply(a, val);
 });
