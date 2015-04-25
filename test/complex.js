@@ -48,7 +48,7 @@ lab.experiment('Complex types', function() {
 		complex.signature('object, object', function() {
 			return 'object object';
 		});
-/*
+
 		Code.expect(complex({}, {})).to.equal('object object');
 		Code.expect(complex(new Foo(), new Foo())).to.equal('foo foo');
 		Code.expect(complex(new Bar(), new Foo())).to.equal('bar foo');
@@ -60,7 +60,6 @@ lab.experiment('Complex types', function() {
 		//  while no explicitly typed signature exists, these still match the less strict 'object, object' signature
 		Code.expect(complex(new Foo(), {})).to.equal('object object');
 		Code.expect(complex(new Bar(), {})).to.equal('object object');
-*/
 
 		Code.expect(function() {
 			complex(new Foo());

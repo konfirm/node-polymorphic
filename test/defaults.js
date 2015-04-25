@@ -121,8 +121,8 @@ lab.experiment('Multiple default arguments', function() {
 
 		picky.signature(
 			'bool, bool, bool q=1',
-			function(a, b) {
-				return 'boolbool#' + (b ? 'true' : 'false');
+			function(a, b, c) {
+				return 'boolbool#' + (c ? 'true' : 'false');
 			}
 
 		);
@@ -136,19 +136,27 @@ lab.experiment('Multiple default arguments', function() {
 			Code.expect(picky(['foo'])).to.equal('array#5');
 			Code.expect(picky(new Foo())).to.equal('Foo#6');
 			Code.expect(picky(true)).to.equal('bool#true');
-			Code.expect(picky(true, true)).to.equal('boolbool#true');
+			//  matches 'bool, bool=true' more than 'bool, bool, bool q=1'
+			Code.expect(picky(true, true)).to.equal('bool#true');
+			Code.expect(picky(true, false)).to.equal('bool#false');
+
+			Code.expect(picky(true, false, undefined)).to.equal('boolbool#true');
 
 			done();
 		});
 
-		lab.test('ignore defaults', function(done) {
+		lab.test('understand when to ignore defaults', function(done) {
 			Code.expect(picky(100, 10)).to.equal('int#10');
-			Code.expect(picky(Math.PI, 11)).to.equal('float#11');
+			Code.expect(picky(Math.PI, 11.1)).to.equal('float#11.1');
 			Code.expect(picky('Foo', 12)).to.equal('string#12');
 			Code.expect(picky({name:'foo'}, 13)).to.equal('object#13');
 			Code.expect(picky(['foo'], 14)).to.equal('array#14');
 			Code.expect(picky(new Foo(), 15)).to.equal('Foo#15');
-			Code.expect(picky(true, 16)).to.equal('bool#16');
+
+			Code.expect(picky(true, false)).to.equal('bool#false');
+			Code.expect(picky(true, true)).to.equal('bool#true');
+			Code.expect(picky(true, true, false)).to.equal('boolbool#false');
+			Code.expect(picky(true, true, true)).to.equal('boolbool#true');
 
 			done();
 		});
