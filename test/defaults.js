@@ -5,11 +5,6 @@ var Code = require('code'),
 	polymorphic = require('../lib/polymorphic'),
 	lab = exports.lab = Lab.script();
 
-function slapper(arg) {
-	return function() {
-		return arg;
-	};
-}
 
 lab.experiment('Multiple default arguments', function() {
 
