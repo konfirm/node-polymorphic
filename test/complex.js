@@ -18,8 +18,7 @@ function Bar() {
 lab.experiment('Complex types', function() {
 
 	lab.test('a Foo walks into a Bar (and other objects)', function(done) {
-		var complex = polymorphic(),
-			tmp;
+		var complex = polymorphic();
 
 		complex.signature('Foo, Foo', function() {
 			return 'foo foo';

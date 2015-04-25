@@ -13,45 +13,121 @@ function slapper(arg) {
 
 lab.experiment('Multiple default arguments', function() {
 
-	lab.experiment('three', function() {
+	lab.experiment('First come, first serve', function() {
 		//  PREPARATION
-		var types = {
-				number: 1,
-				string: 'A'
-			},
-			options = [],
-			multiple = polymorphic();
+		var defaultA = polymorphic(),
+			defaultB = polymorphic();
 
-		Object.keys(types).forEach(function(first) {
-			Object.keys(types).forEach(function(second) {
-				Object.keys(types).forEach(function(third) {
-					var config = {
-							name: [first, second + ' b=' + (types[second] + 1), third + ' c=' + (types[third] + 1)].join(','),
-							args: [types[first], types[second], types[third]],
-							defaults: [types[first], types[second] + 1, types[third] + 1]
-						};
+		function mapper() {
+			var chars = 'abcdefgh',
+				arg = Array.prototype.slice.call(arguments);
 
-					multiple.signature(config.name, slapper(config.args));
-					options.push(config);
-				});
-			});
-		});
+			return arg.map(function(n, i) {
+				return chars[i] + n;
+			}).join(',');
+		}
+
+		//  Add the same signatures to both defaultA and defaultB but in a different order
+		defaultA.signature('number a=1, number b=2, number c=3', mapper);
+		defaultA.signature('string a=A, number b=2, number c=3', mapper);
+		defaultA.signature('string a=A, string b=B, number c=3', mapper);
+		defaultA.signature('string a=A, string b=B, string c=C', mapper);
+
+		defaultB.signature('string a=A, string b=B, string c=C', mapper);
+		defaultB.signature('string a=A, string b=B, number c=3', mapper);
+		defaultB.signature('string a=A, number b=2, number c=3', mapper);
+		defaultB.signature('number a=1, number b=2, number c=3', mapper);
 
 		//  EXECUTION
 
-		options.forEach(function(config) {
-			for (var i = 1; i < config.args.length; ++i) {
-				lab.test(config.name, function(done) {
-					var expect = config.defaults;
-					config.args.slice(0, i).forEach(function(value, index) {
-						expect[index] = config.args[index];
-					});
+		lab.test('All defaults', function(done) {
+			//  no arguments, matches all configured, returns the first one configured
+			Code.expect(defaultA()).to.equal('a1,b2,c3');
+			Code.expect(defaultB()).to.equal('aA,bB,cC');
 
-					Code.expect(multiple.apply(null, config.args.slice(0, i))).to.deep.equal(expect);
+			done();
+		});
 
-					done();
-				});
-			}
+		lab.test('One given', function(done) {
+			//  one argument, matches all who match first type, returns the first one configured
+			Code.expect(defaultA(8)).to.equal('a8,b2,c3');
+			Code.expect(defaultB(8)).to.equal('a8,b2,c3');
+
+			Code.expect(defaultA('Q')).to.equal('aQ,b2,c3');
+			Code.expect(defaultB('Q')).to.equal('aQ,bB,cC');
+
+			done();
+		});
+
+		lab.test('Two given', function(done) {
+			//  two arguments, matches all whose types match, returns the first one configured
+			Code.expect(defaultA(8, 9)).to.equal('a8,b9,c3');
+			Code.expect(defaultB(8, 9)).to.equal('a8,b9,c3');
+
+			Code.expect(defaultA('Q', 9)).to.equal('aQ,b9,c3');
+			Code.expect(defaultB('Q', 9)).to.equal('aQ,b9,c3');
+
+			Code.expect(function() {
+				defaultA(8, 'Z');
+			}).to.throw('polymorph: signature not found "int|number, string"');
+			Code.expect(function() {
+				defaultB(8, 'Z');
+			}).to.throw('polymorph: signature not found "int|number, string"');
+
+			Code.expect(defaultA('Q', 'Z')).to.equal('aQ,bZ,c3');
+			Code.expect(defaultB('Q', 'Z')).to.equal('aQ,bZ,cC');
+
+			done();
+		});
+
+		lab.test('Three given', function(done) {
+			//  three arguments, matches all whose types match, returns the first one configured
+			Code.expect(defaultA(8, 9, 10)).to.equal('a8,b9,c10');
+			Code.expect(defaultB(8, 9, 10)).to.equal('a8,b9,c10');
+
+			Code.expect(defaultA('Q', 9, 10)).to.equal('aQ,b9,c10');
+			Code.expect(defaultB('Q', 9, 10)).to.equal('aQ,b9,c10');
+
+			Code.expect(defaultA('Q', 'Z', 10)).to.equal('aQ,bZ,c10');
+			Code.expect(defaultB('Q', 'Z', 10)).to.equal('aQ,bZ,c10');
+
+			Code.expect(defaultA('Q', 'Z', 'Y')).to.equal('aQ,bZ,cY');
+			Code.expect(defaultB('Q', 'Z', 'Y')).to.equal('aQ,bZ,cY');
+
+			done();
+		});
+
+		lab.test('Too many given', function(done) {
+			//  three arguments, matches all whose types match, returns the first one configured
+			Code.expect(function() {
+				defaultA(8, 9, 10, 11);
+			}).to.throw('polymorph: signature not found "int|number, int|number, int|number, int|number"');
+			Code.expect(function() {
+				defaultB(8, 9, 10, 11);
+			}).to.throw('polymorph: signature not found "int|number, int|number, int|number, int|number"');
+
+			Code.expect(function() {
+				defaultA('Q', 9, 10, 11);
+			}).to.throw('polymorph: signature not found "string, int|number, int|number, int|number"');
+			Code.expect(function() {
+				defaultB('Q', 9, 10, 11);
+			}).to.throw('polymorph: signature not found "string, int|number, int|number, int|number"');
+
+			Code.expect(function() {
+				defaultA('Q', 'Z', 10, 11);
+			}).to.throw('polymorph: signature not found "string, string, int|number, int|number"');
+			Code.expect(function() {
+				defaultB('Q', 'Z', 10, 11);
+			}).to.throw('polymorph: signature not found "string, string, int|number, int|number"');
+
+			Code.expect(function() {
+				defaultA('Q', 'Z', 'Y', 'X');
+			}).to.throw('polymorph: signature not found "string, string, string, string"');
+			Code.expect(function() {
+				defaultB('Q', 'Z', 'Y', 'X');
+			}).to.throw('polymorph: signature not found "string, string, string, string"');
+
+			done();
 		});
 	});
 
@@ -136,7 +212,7 @@ lab.experiment('Multiple default arguments', function() {
 			Code.expect(picky(['foo'])).to.equal('array#5');
 			Code.expect(picky(new Foo())).to.equal('Foo#6');
 			Code.expect(picky(true)).to.equal('bool#true');
-			//  matches 'bool, bool=true' more than 'bool, bool, bool q=1'
+			//  matches 'bool, bool=true' rather than 'bool, bool, bool q=1'
 			Code.expect(picky(true, true)).to.equal('bool#true');
 			Code.expect(picky(true, false)).to.equal('bool#false');
 
@@ -161,5 +237,4 @@ lab.experiment('Multiple default arguments', function() {
 			done();
 		});
 	});
-
 });
