@@ -111,6 +111,34 @@ lab.experiment('Complex types', function() {
 
 			done();
 		});
+
+		lab.test('Array does not match "object"', function(done){
+			var complex = polymorphic();
+
+			complex.signature('object', function(noArray) {
+				return !(noArray instanceof Array);
+			});
+
+			Code.expect(complex({})).to.equal(true);
+			Code.expect(function() {
+				complex([]);
+			}).to.throw('polymorph: signature not found "Array|array"');
+
+			done();
+		});
+
+		lab.test('Array does match "Object"', function(done) {
+			var complex = polymorphic();
+
+			complex.signature('Object', function(noArray) {
+				return !(noArray instanceof Array);
+			});
+
+			Code.expect(complex({})).to.equal(true);
+			Code.expect(complex([])).to.equal(false);
+
+			done();
+		});
 	});
 
 });
