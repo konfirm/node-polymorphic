@@ -2,21 +2,29 @@
 
 var Code = require('code'),
 	Lab = require('lab'),
+	util = require('util'),
 	polymorphic = require('../lib/polymorphic'),
 	lab = exports.lab = Lab.script();
 
 function Foo() {
-	this.name = 'foo';
+	this.name = 'Foo';
 	this.time = Date.now();
 }
+
+Foo.prototype.hello = function() {
+	return 'a ' + this.name;
+};
 
 function Bar() {
-	this.name = 'bar';
-	this.time = Date.now();
+	Bar.super_.apply(this, arguments);
+
+	this.name = 'Bar';
+	this.date = new Date();
 }
 
-lab.experiment('Complex types', function() {
+util.inherits(Bar, Foo);
 
+lab.experiment('Complex types', function() {
 	lab.test('a Foo walks into a Bar (and other objects)', function(done) {
 		var complex = polymorphic();
 
@@ -73,6 +81,36 @@ lab.experiment('Complex types', function() {
 		}).to.throw('polymorph: signature not found "Object|object"');
 
 		done();
+	});
+
+	lab.experiment('Inheritance', function() {
+		lab.test('Bar extends Foo, matches Foo', function(done) {
+			var complex = polymorphic();
+
+			complex.signature('Foo', function(foo) {
+				return 'Foo-lish: ' + foo.hello();
+			});
+
+			Code.expect(complex(new Foo())).to.equal('Foo-lish: a Foo');
+			Code.expect(complex(new Bar())).to.equal('Foo-lish: a Bar');
+
+			done();
+		});
+
+		lab.test('Bar extends Foo, does not match Foo!', function(done) {
+			var complex = polymorphic();
+
+			complex.signature('Foo!', function(foo) {
+				return 'Foo-lish: ' + foo.hello();
+			});
+
+			Code.expect(complex(new Foo())).to.equal('Foo-lish: a Foo');
+			Code.expect(function() {
+				complex(new Bar());
+			}).to.throw('polymorph: signature not found "Bar|object"');
+
+			done();
+		});
 	});
 
 });
