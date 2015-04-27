@@ -53,6 +53,21 @@ console.log(tax(1, 10));  //  1.1
 console.log(tax(2, 75));  //  3.5
 ```
 
+### References
+In version `1.1.0`, the concept of _references_ is introduced, this allows you to refer to other (named) variables and will take the value of the referred variable of not provided during the call.
+```js
+var polymorphic = require('polymorphic'),
+	ref = polymorphic();
+
+ref.signature('string a=hello, string b=@a', function(a, b) {
+	return a + ', ' + b;
+});
+
+console.log(ref());                  //  'hello, hello'
+console.log(ref('hi'));              //  'hi, hi'
+console.log(ref('hello', 'world'));  //  'hello, world'
+```
+
 ### Strong typing
 As of version `1.0.0` (breaking API change), inheritance is taken into consideration
 ```js

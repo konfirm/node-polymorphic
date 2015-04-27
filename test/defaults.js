@@ -232,4 +232,25 @@ lab.experiment('Multiple default arguments', function() {
 			done();
 		});
 	});
+
+	lab.test('Resolve references', function(done) {
+		var defaults = polymorphic();
+
+		function echo() {
+			return Array.prototype.slice.call(arguments).join(',');
+		}
+
+		defaults.signature('string a, string b=@a', echo);
+		defaults.signature('number a=3, number b=7, number c=@b, number d=0', echo);
+
+		Code.expect(defaults()).to.equal('3,7,7,0');
+		Code.expect(defaults('q')).to.equal('q,q');
+		Code.expect(defaults('q', 'x')).to.equal('q,x');
+		Code.expect(defaults(1)).to.equal('1,7,7,0');
+		Code.expect(defaults(2, 3)).to.equal('2,3,3,0');
+		Code.expect(defaults(3, 7, 9)).to.equal('3,7,9,0');
+		Code.expect(defaults(2, 4, 8, 10)).to.equal('2,4,8,10');
+
+		done();
+	});
 });
