@@ -54,8 +54,10 @@ console.log(tax(2, 75));  //  3.5
 ```
 
 ### Strong typing
+As of version `1.0.0` (breaking API change), inheritance is taken into consideration
 ```js
 var polymorphic = require('polymorphic'),
+	util = require('util'),
 	showDate = polymorphic();
 
 //  define a couple of very simple object types, both dealing with - for example - a date but treated differently
@@ -66,6 +68,14 @@ function Foo() {
 function Bar() {
 	this.timestamp = Date.now();
 }
+
+function Baz() {
+	//  actually execute everything done in the Bar constructor
+	Baz.super_.apply(this, arguments);
+}
+
+util.inherits(Baz, Bar);
+
 
 //  the goal is to log a date object, so we add that signature (note that Date is a native object)
 showDate.signature('Date', function(date) {
@@ -86,9 +96,23 @@ showDate.signature('Bar', function(bar) {
 });
 
 //  and now...
-showDate(new Date());  //  e.g. >> Mon Apr 27 2015 11:55:27 GMT+0200 (CEST)
-showDate(new Foo());   //  e.g. >> Mon Apr 27 2015 11:55:27 GMT+0200 (CEST)
-showDate(new Bar());   //  e.g. >> Mon Apr 27 2015 11:55:27 GMT+0200 (CEST)
+showDate(new Date());  //  e.g. >> Mon Apr 27 2015 01:23:45 GMT+0200 (CEST)
+showDate(new Foo());   //  e.g. >> Mon Apr 27 2015 01:23:45 GMT+0200 (CEST)
+showDate(new Bar());   //  e.g. >> Mon Apr 27 2015 01:23:45 GMT+0200 (CEST)
+//  (as of 1.0.0) Baz extends Bar and is therefor allowed on Bar signatures
+showDate(new Baz());   //  e.g. >> Mon Apr 27 2015 01:23:45 GMT+0200 (CEST)
+```
+
+In order to allow only `Bar` instances and never an extend, you can specify the signature `'Bar!'` (read this as "must be a Bar!"). In case both `'Bar'` and `'Bar!'` would exist, the most explicit one (`'Bar!'`) will take precedence.
+Adding the following to the example above:
+```js
+//  add a signature allowing only explicit Bar types
+showDate.signature('Bar!', function(bar) {
+	showDate(new Date(bar.timestamp), 'bar!');
+});
+
+showDate(new Bar());   //  e.g. >> Mon Apr 27 2015 01:23:45 GMT+0200 (CEST) (from: bar!)
+showDate(new Baz());   //  e.g. >> Mon Apr 27 2015 01:23:45 GMT+0200 (CEST) (from: bar or baz)
 ```
 
 ### Variadic arguments (`...`)

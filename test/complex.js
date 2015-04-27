@@ -112,6 +112,51 @@ lab.experiment('Complex types', function() {
 			done();
 		});
 
+		lab.test('Bar extends Foo, does match Foo but prefers Bar', function(done) {
+			var complexA = polymorphic(),
+				complexB = polymorphic();
+
+			function foolish(foo) {
+				return 'Foo-lish: ' + foo.hello();
+			}
+
+			function barish(bar) {
+				return 'Bar-ish: ' + bar.hello();
+			}
+
+			complexA.signature('Foo', foolish);
+			complexA.signature('Bar', barish);
+			complexB.signature('Bar', barish);
+			complexB.signature('Foo', foolish);
+
+			//  regardless of signature order, should be the same
+			Code.expect(complexA(new Foo())).to.equal('Foo-lish: a Foo');
+			Code.expect(complexA(new Bar())).to.equal('Bar-ish: a Bar');
+
+			Code.expect(complexB(new Foo())).to.equal('Foo-lish: a Foo');
+			Code.expect(complexB(new Bar())).to.equal('Bar-ish: a Bar');
+
+			done();
+		});
+
+		lab.test('Foo likes Foo, but prefers Foo!', function(done) {
+			var complex = polymorphic();
+
+			complex.signature('Foo', function(foo) {
+				return 'Foo-lish: ' + foo.hello();
+			});
+
+			complex.signature('Foo!', function(foo) {
+				return 'Foo: ' + foo.hello();
+			});
+
+			//  regardless of signature order, should be the same
+			Code.expect(complex(new Foo())).to.equal('Foo: a Foo');
+			Code.expect(complex(new Bar())).to.equal('Foo-lish: a Bar');
+
+			done();
+		});
+
 		lab.test('Array does not match "object"', function(done){
 			var complex = polymorphic();
 
