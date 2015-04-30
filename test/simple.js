@@ -7,32 +7,72 @@ var Code = require('code'),
 
 lab.experiment('Simple', function() {
 
+	lab.experiment('no arguments', function() {
+		lab.test('empty signature', function(done) {
+			var none = polymorphic();
+
+			none.signature('', function() {
+				return arguments.length;
+			});
+
+			Code.expect(none()).to.equal(0);
+
+			done();
+		});
+
+		lab.test('"void" signature', function(done) {
+			var none = polymorphic();
+
+			none.signature('void', function() {
+				return arguments.length;
+			});
+
+			Code.expect(none()).to.equal(0);
+
+			done();
+		});
+
+		lab.test('"void name" signatures should fail', function(done) {
+			var none = polymorphic();
+
+			none.signature('void name', function() {
+				return arguments.length;
+			});
+
+			Code.expect(function() {
+				none();
+			}).to.throw('polymorph: signature not found ""');
+
+			done();
+		});
+	});
+
 	lab.experiment('single argument, no defaults', function() {
 		//  PREPARATION
 		var single = polymorphic();
 
 		//  add number handler
-		single.signature('number', function(n) {
+		single.signature('number', function() {
 			return 'number';
 		});
 
 		//  add string handler
-		single.signature('string', function(s) {
+		single.signature('string', function() {
 			return 'string';
 		});
 
 		//  add boolean handler
-		single.signature('boolean', function(b) {
+		single.signature('boolean', function() {
 			return 'boolean';
 		});
 
 		//  add array handler
-		single.signature('Array', function(a) {
+		single.signature('Array', function() {
 			return 'array';
 		});
 
 		//  add object handler
-		single.signature('object', function(a) {
+		single.signature('object', function() {
 			return 'object';
 		});
 
@@ -87,22 +127,22 @@ lab.experiment('Simple', function() {
 		});
 
 		//  add string handlers
-		single.signature('string', function(s) {
+		single.signature('string', function() {
 			return 'string';
 		});
 
 		//  add boolean handlers
-		single.signature('boolean', function(b) {
+		single.signature('boolean', function() {
 			return 'boolean';
 		});
 
 		//  add array handlers
-		single.signature('Array', function(a) {
+		single.signature('Array', function() {
 			return 'array';
 		});
 
 		//  add object handlers
-		single.signature('object', function(a) {
+		single.signature('object', function() {
 			return 'object';
 		});
 

@@ -15,6 +15,26 @@ npm install --save polymorphic
 One of the complaints on writing javascript is that it is not as strict as one would like, adding `'use strict'` to the code helps a lot but it does not (yet) enforce function calls with explicitly typed arguments. In comes `polymorphic`, trying to add both a level of strictness while also (trying to) improve convenience.
 If you have ever found yourself checking the arguments of your functions over and over again (if not, you should check your input), you may find it relaxing to use `polymorphic` which can do this for you. Or actually, it does not validate the inputs, but it will not find a proper function signature for the call resulting in a thrown Error.
 
+## API
+The `polymorphic` function itself takes no arguments, all it does is creating the polymorphic function, e.g. `var myVar = polymorphic();`.
+While `myVar` now contains a polymorphic function, it will not accept any mix of arguments as it simply has no handlers for any pattern. Calling it now would result in an Error.
+Calling `myVar();` will throw: `polymorph: signature not found ""`
+
+### `.signature(string signature1, [string ...signatureN,] function handler)` (`void`)
+By calling the `.signature` method on the polymorphic function you've created (`myVar` in the example above), you can add any number of signatures you want (in excess of 1) + the handler function for those signatures.
+The syntax of a single argument in a signature is:`type [name[=default]]`
+It should be noted that defaults can only be one of the following types: `number`, `int`, `float`, `string`, `boolean`
+
+#### Recognized types in a signature
+All of the basic types supported by javascript are supported, next to a few more convenient ones.
+- `string`
+- `number` (also `float` and `int`)
+- `boolean` (also `bool`)
+- `array`
+- `object` (note that you may choose to use the constructor name to be more explicit, by default this takes the inheritance chain into consideration, but accepts an added `!` (e.g. `'Foo!'`) to indicate only a `Foo` is accepted and not an inherited object)
+- `void` (also an empty signature: `''`), denotes a signature which does not allow any arguments
+- `...` (note that this variadic type will always become an array containing zero of more arguments, the variadic must be the last argument in a signature)
+
 ## Usage
 ```js
 var polymorphic = require('polymorphic'),
@@ -163,16 +183,6 @@ integer: 3
  - true
 */
 ```
-
-## API
-The `polymorphic` function itself takes no arguments, all it does is creating the polymorphic function, e.g. `var myVar = polymorphic();`.
-While `myVar` now contains a polymorphic function, it will not accept any mix of arguments as it simply has no handlers for any pattern. Calling it now would result in an Error.
-Calling `myVar();` will throw: `polymorph: signature not found ""`
-
-### `.signature(string signature1, [string ...signatureN,] function handler)` (`void`)
-By calling the `.signature` method on the polymorphic function you've created (`myVar` in the example above), you can add any number of signatures you want (in excess of 1) + the handler function for those signatures.
-The syntax of a single argument in a signature is:`type [name[=default]]`
-It should be noted that defaults can only be one of the following types: `number`, `int`, `float`, `string`, `boolean`
 
 ## Similar packages
 As there are currently over 140.000 public modules on [npm](https://npmjs.org), there sure are modules providing the same functionality. It feels like cheating not to mention a couple of the more popular ones, so here is a shortlist (in alphabetical order) to check out.
