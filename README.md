@@ -1,6 +1,8 @@
 [![npm version](https://badge.fury.io/js/polymorphic.svg)](http://badge.fury.io/js/polymorphic)
 [![Build Status](https://travis-ci.org/konfirm/node-polymorphic.svg?branch=master)](https://travis-ci.org/konfirm/node-polymorphic)
 [![Coverage Status](https://coveralls.io/repos/konfirm/node-polymorphic/badge.svg?branch=master)](https://coveralls.io/r/konfirm/node-polymorphic?branch=master)
+[![dependencies](https://david-dm.org/konfirm/node-polymorphic.svg)](https://david-dm.org/konfirm/node-polymorphic#info=dependencies)
+[![dev-dependencies](https://david-dm.org/konfirm/node-polymorphic/dev-status.svg)](https://david-dm.org/konfirm/node-polymorphic#info=devDependencies)
 [![Codacy Badge](https://www.codacy.com/project/badge/f0865afea73f4b3f9f7cc4fd1c60510a)](https://www.codacy.com/app/rogier/node-polymorphic)
 
 # node-polymorphic
