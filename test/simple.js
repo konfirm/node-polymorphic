@@ -32,6 +32,19 @@ lab.experiment('Simple', function() {
 			done();
 		});
 
+		lab.test('"void" signature as one of the signatures', function(done) {
+			var none = polymorphic();
+
+			none.signature('void', 'string a', function() {
+				return arguments.length;
+			});
+
+			Code.expect(none()).to.equal(0);
+			Code.expect(none('b')).to.equal(1);
+
+			done();
+		});
+
 		lab.test('"void name" signatures should fail', function(done) {
 			var none = polymorphic();
 
