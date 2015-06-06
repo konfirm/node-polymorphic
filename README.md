@@ -202,4 +202,4 @@ As there are currently over 140.000 public modules on [npm](https://npmjs.org), 
 
 
 ## License
-GPLv2 © [Konfirm](https://konfirm.eu)
+GPLv2 © [Konfirm ![Open](//kon.fm/open.svg)](//kon.fm/site)
