@@ -1,13 +1,13 @@
 {
   "name": "polymorphic",
-  "version": "1.2.8",
+  "version": "1.2.9",
   "description": "Create functions with different argument signatures for different code flows",
   "main": "lib/polymorphic.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "posttest": "./node_modules/.bin/nsp audit-package",
+    "posttest": "./node_modules/.bin/nsp check",
     "test": "./node_modules/.bin/lab -f -t 100 -m 3000",
     "test-coverage": "./node_modules/.bin/lab -f -r html -m 3000 -o report.html"
   },
@@ -22,16 +22,16 @@
     "overloading"
   ],
   "author": "Rogier Spieker",
-  "license": "GPLv2",
+  "license": "GPL-2.0",
   "bugs": {
     "url": "https://github.com/konfirm/node-polymorphic/issues"
   },
   "homepage": "https://github.com/konfirm/node-polymorphic",
   "devDependencies": {
-    "code": "^1.4.1",
-    "coveralls": "^2.11.3",
-    "lab": "^5.13.0",
-    "nsp": "^1.0.3"
+    "code": "^3.0.1",
+    "coveralls": "^2.11.4",
+    "lab": "^10.8.2",
+    "nsp": "^2.0.2"
   },
   "engines": {
     "node": ">=0.10"
