@@ -28,12 +28,12 @@
   },
   "homepage": "https://github.com/konfirm/node-polymorphic",
   "devDependencies": {
-    "code": "^3.0.1",
-    "coveralls": "^2.11.4",
-    "lab": "^10.8.2",
-    "nsp": "^2.0.2"
+    "code": "^3.0.2",
+    "coveralls": "^2.11.12",
+    "lab": "^11.0.1",
+    "nsp": "^2.6.1"
   },
   "engines": {
-    "node": ">=0.10"
+    "node": ">=4"
   }
 }
