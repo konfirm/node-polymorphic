@@ -18,7 +18,6 @@ lab.experiment('Variadic types', function() {
 		done();
 	});
 
-/*
 	lab.test('variadic arguments', function(done) {
 		var variadic = polymorphic();
 
@@ -38,7 +37,6 @@ lab.experiment('Variadic types', function() {
 
 		done();
 	});
-*/
 
 	lab.test('non-variadic call take precedence', function(done) {
 		var variadic = polymorphic();

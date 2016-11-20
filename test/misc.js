@@ -126,4 +126,17 @@ lab.experiment('Unknown signatures', function() {
 		done();
 	});
 
+	lab.test('preserve `this`-contexts', function(done) {
+		var misc = polymorphic();
+
+		misc.signature('bool', function(bool) {
+			return this;
+		});
+
+		Code.expect(misc(true)).to.equal(undefined);
+		Code.expect(misc.call('test 1', true)).to.equal('test 1');
+		Code.expect(misc.apply('test 2', [true])).to.equal('test 2');
+
+		done();
+	});
 });
