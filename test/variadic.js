@@ -17,6 +17,7 @@ lab.experiment('Variadic types', function() {
 
 		done();
 	});
+
 /*
 	lab.test('variadic arguments', function(done) {
 		var variadic = polymorphic();
@@ -38,6 +39,7 @@ lab.experiment('Variadic types', function() {
 		done();
 	});
 */
+
 	lab.test('non-variadic call take precedence', function(done) {
 		var variadic = polymorphic();
 
@@ -49,13 +51,14 @@ lab.experiment('Variadic types', function() {
 			return 'int' + n;
 		});
 
-		//  actually the test title is a lie, providing nothing will have equal specificity (variadic is always 0, as are defaults)
+		//  actually the test title is a lie, providing nothing will have equal specificity
+		//  (variadic is always 0, as are defaults)
 		//  hence the 'first come, first serve' principle applies here
-//		Code.expect(variadic()).to.equal('variadic0');
+		Code.expect(variadic()).to.equal('variadic0');
 
 		//  ok, now we actually test the claims ;-)
-//		Code.expect(variadic(0)).to.equal('int0');
-//		Code.expect(variadic(1)).to.equal('int1');
+		Code.expect(variadic(0)).to.equal('int0');
+		Code.expect(variadic(1)).to.equal('int1');
 
 		Code.expect(variadic(Math.PI)).to.equal('variadic1');
 		Code.expect(variadic(true)).to.equal('variadic1');
@@ -64,4 +67,97 @@ lab.experiment('Variadic types', function() {
 		done();
 	});
 
+	lab.experiment('Signatures containing variadic still correctly checks type', function() {
+		lab.test('number, ...', function(done) {
+			var variadic = polymorphic();
+
+			variadic.signature('number, ...', function(num, rest) {
+				Code.expect(typeof num).to.equal('number');
+
+				done();
+			});
+
+			Code.expect(function() {
+				variadic(true, 'a', 'b');
+			}).to.throw('polymorph: signature not found "boolean|bool, string, string"');
+
+			Code.expect(function() {
+				variadic('test', 'a', 'b');
+			}).to.throw('polymorph: signature not found "string, string, string"');
+
+			Code.expect(function() {
+				variadic(['test'], 'a');
+			}).to.throw('polymorph: signature not found "Array|array, string"');
+
+			Code.expect(function() {
+				variadic({a: 'test'}, 'a');
+			}).to.throw('polymorph: signature not found "Object|object, string"');
+
+			variadic(2, 'a', 'b');
+		});
+
+		lab.test('boolean, ...', function(done) {
+			var variadic = polymorphic();
+
+			variadic.signature('boolean, ...', function(bool, rest) {
+				Code.expect(typeof bool).to.equal('boolean');
+
+				done();
+			});
+
+			Code.expect(function() {
+				variadic(2, 'a', 'b');
+			}).to.throw('polymorph: signature not found "int|number, string, string"');
+
+			Code.expect(function() {
+				variadic(Math.PI, 'a', 'b');
+			}).to.throw('polymorph: signature not found "float|number, string, string"');
+
+			Code.expect(function() {
+				variadic('test', 'a', 'b');
+			}).to.throw('polymorph: signature not found "string, string, string"');
+
+			Code.expect(function() {
+				variadic(['test'], 'a');
+			}).to.throw('polymorph: signature not found "Array|array, string"');
+
+			Code.expect(function() {
+				variadic({a: 'test'}, 'a');
+			}).to.throw('polymorph: signature not found "Object|object, string"');
+
+			variadic(true, 'a', 'b');
+		});
+
+		lab.test('string, ...', function(done) {
+			var variadic = polymorphic();
+
+			variadic.signature('string, ...', function(str, rest) {
+				Code.expect(typeof str).to.equal('string');
+
+				done();
+			});
+
+			Code.expect(function() {
+				variadic(true, 'a', 'b');
+			}).to.throw('polymorph: signature not found "boolean|bool, string, string"');
+
+			Code.expect(function() {
+				variadic(2, 'a', 'b');
+			}).to.throw('polymorph: signature not found "int|number, string, string"');
+
+			Code.expect(function() {
+				variadic(Math.PI, 'a', 'b');
+			}).to.throw('polymorph: signature not found "float|number, string, string"');
+
+			Code.expect(function() {
+				variadic(['test'], 'a');
+			}).to.throw('polymorph: signature not found "Array|array, string"');
+
+			Code.expect(function() {
+				variadic({a: 'test'}, 'a');
+			}).to.throw('polymorph: signature not found "Object|object, string"');
+
+			variadic('test', 'a', 'b');
+		});
+	});
 });
