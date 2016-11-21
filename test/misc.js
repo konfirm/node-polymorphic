@@ -70,7 +70,7 @@ lab.experiment('Unknown signatures', function() {
 	lab.test('null is not treated as an object', function(done) {
 		var misc = polymorphic();
 
-		misc.signature('number num=1, object', function(num, obj) {
+		misc.signature('number num=1, object', function() {
 			return 'number object';
 		});
 
@@ -79,7 +79,7 @@ lab.experiment('Unknown signatures', function() {
 			misc(1, null);
 		}).to.throw('polymorph: signature not found "int|number, null"');
 
-		misc.signature('number num=1, null', function(num, obj) {
+		misc.signature('number num=1, null', function() {
 			return 'number null';
 		});
 
@@ -129,7 +129,7 @@ lab.experiment('Unknown signatures', function() {
 	lab.test('preserve `this`-contexts', function(done) {
 		var misc = polymorphic();
 
-		misc.signature('bool', function(bool) {
+		misc.signature('bool', function() {
 			return this;
 		});
 

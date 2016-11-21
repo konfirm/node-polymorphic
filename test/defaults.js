@@ -126,7 +126,7 @@ lab.experiment('Multiple default arguments', function() {
 		});
 	});
 
-	lab.experiment('Choose wisely', function(done) {
+	lab.experiment('Choose wisely', function() {
 		//  PREPARATION
 		var picky = polymorphic();
 

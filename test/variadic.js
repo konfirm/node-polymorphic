@@ -71,6 +71,7 @@ lab.experiment('Variadic types', function() {
 
 			variadic.signature('number, ...', function(num, rest) {
 				Code.expect(typeof num).to.equal('number');
+				Code.expect(rest instanceof Array).to.equal(true);
 
 				done();
 			});
@@ -99,6 +100,7 @@ lab.experiment('Variadic types', function() {
 
 			variadic.signature('boolean, ...', function(bool, rest) {
 				Code.expect(typeof bool).to.equal('boolean');
+				Code.expect(rest instanceof Array).to.equal(true);
 
 				done();
 			});
@@ -131,6 +133,7 @@ lab.experiment('Variadic types', function() {
 
 			variadic.signature('string, ...', function(str, rest) {
 				Code.expect(typeof str).to.equal('string');
+				Code.expect(rest instanceof Array).to.equal(true);
 
 				done();
 			});
