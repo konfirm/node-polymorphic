@@ -202,4 +202,7 @@ As there are currently over 140.000 public modules on [npm](https://npmjs.org), 
 
 
 ## License
-GPLv2 © [Konfirm ![Open](https://kon.fm/open.svg)](//kon.fm/site)
+MIT © 2015-2016 [Konfirm ![Open](https://kon.fm/open.svg)](//kon.fm/site)
+
+_NOTE; Polymorphic up to version 1.3.0 was licensed under the GPLv2_
+The MIT license is compatible with GPL and offers less restrictions on the projects using this software.

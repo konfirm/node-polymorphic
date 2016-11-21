@@ -22,7 +22,7 @@
     "overloading"
   ],
   "author": "Rogier Spieker",
-  "license": "GPL-2.0",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/konfirm/node-polymorphic/issues"
   },
