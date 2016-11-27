@@ -76,7 +76,7 @@ console.log(tax(2, 75));  //  3.5
 ```
 
 ### References
-In version `1.1.0`, the concept of _references_ is introduced, this allows you to refer to other (named) variables and will take the value of the referred variable of not provided during the call.
+In version `1.1.0`, the concept of _references_ is introduced, this allows you to refer to other (named) variables and will take the value of the referred variable if not provided during the call.
 ```js
 var polymorphic = require('polymorphic'),
 	ref = polymorphic();
