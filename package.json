@@ -1,6 +1,6 @@
 {
   "name": "polymorphic",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Create functions with different argument signatures for different code flows",
   "main": "lib/polymorphic.js",
   "directories": {
@@ -29,9 +29,9 @@
   "homepage": "https://github.com/konfirm/node-polymorphic",
   "devDependencies": {
     "code": "^4.0.0",
-    "coveralls": "^2.11.12",
-    "lab": "^11.0.1",
-    "nsp": "^2.6.1"
+    "coveralls": "^2.13.1",
+    "lab": "^13.0.4",
+    "nsp": "^2.6.3"
   },
   "engines": {
     "node": ">=4"
