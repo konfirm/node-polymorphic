@@ -8,8 +8,8 @@
   },
   "scripts": {
     "posttest": "./node_modules/.bin/nsp check",
-    "test": "./node_modules/.bin/lab -f -t 100 -m 3000",
-    "test-coverage": "./node_modules/.bin/lab -f -r html -m 3000 -o report.html"
+    "test": "./node_modules/.bin/lab -vclr",
+    "test-coverage": "./node_modules/.bin/lab -vcl -r html -o report.html"
   },
   "repository": {
     "type": "git",
@@ -28,9 +28,7 @@
   },
   "homepage": "https://github.com/konfirm/node-polymorphic",
   "devDependencies": {
-    "code": "^4.0.0",
-    "coveralls": "^2.13.1",
-    "lab": "^13.0.4",
+    "@konfirm/labrat": "^1.1.0",
     "nsp": "^2.6.3"
   },
   "engines": {

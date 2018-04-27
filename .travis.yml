@@ -4,7 +4,9 @@ node_js:
 - 5
 - 6
 - 7
-after_script: ./node_modules/.bin/lab -r lcov | ./node_modules/.bin/coveralls
+- 8
+- 9
+- 10
 notifications:
   slack:
     secure: Qh9oyrjvvMM0+mFnFRG7PXIL/hHzkS8OBB5+KTocX2HmB5S/MJX55vDtsZSUqwlJMAMWH0bf+/LlP/is5urcLPBU7Q30GRXaEvBsbcBmrwK2OeBPa9Hu7KB6i1B47Q/8exFZkYRAc6+FTD2Rcnvsfl+dAFX6FydTWv1XGjQsVnk=
