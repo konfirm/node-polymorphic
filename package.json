@@ -1,6 +1,6 @@
 {
   "name": "polymorphic",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Create functions with different argument signatures for different code flows",
   "main": "lib/polymorphic.js",
   "directories": {
