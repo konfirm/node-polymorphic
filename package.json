@@ -7,7 +7,6 @@
     "test": "test"
   },
   "scripts": {
-    "posttest": "./node_modules/.bin/nsp check",
     "test": "./node_modules/.bin/lab -vclr",
     "test-coverage": "./node_modules/.bin/lab -vcl -r html -o report.html"
   },
@@ -28,10 +27,9 @@
   },
   "homepage": "https://github.com/konfirm/node-polymorphic",
   "devDependencies": {
-    "@konfirm/labrat": "^1.1.0",
-    "nsp": "^2.6.3"
+    "@konfirm/labrat": "^1.4.0"
   },
   "engines": {
-    "node": ">=4"
+    "node": ">=7"
   }
 }
