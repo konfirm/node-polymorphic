@@ -4,6 +4,8 @@ node_js:
 - 8
 - 9
 - 10
+- 11
+- 12
 notifications:
   slack:
     secure: Qh9oyrjvvMM0+mFnFRG7PXIL/hHzkS8OBB5+KTocX2HmB5S/MJX55vDtsZSUqwlJMAMWH0bf+/LlP/is5urcLPBU7Q30GRXaEvBsbcBmrwK2OeBPa9Hu7KB6i1B47Q/8exFZkYRAc6+FTD2Rcnvsfl+dAFX6FydTWv1XGjQsVnk=
