@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/konfirm/node-polymorphic",
   "devDependencies": {
-    "@konfirm/labrat": "^1.4.0"
+    "@konfirm/labrat": "^2.0.0"
   },
   "engines": {
     "node": ">=7"
