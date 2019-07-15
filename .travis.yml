@@ -1,11 +1,26 @@
 language: node_js
 node_js:
-- 7
-- 8
-- 9
-- 10
-- 11
-- 12
+    - 7
+    - 8
+    - 9
+    - 10
+    - 11
+    - 12
+
+jobs:
+    include:
+        - stage: npm release
+          if: tag IS present
+          node_js: 12
+          deploy:
+              provider: npm
+              email: rogier+npm@konfirm.eu
+              on:
+                  branch: master
+                  tags: true
+              api_key:
+                  secure: W5Z8wyaQlg27woVXtHIVQs3M1vXFYiry/QWwn8nL3sjAvvdn6BWk3VmtPSwO9b4qpCzJuayvo5zJF1uolN/CUQqThMhQlMniegcv4xAxX1tPAa13RcOR2SpgaEVDwDn/OdwnstFbBr9Bq6MmykFXy9WgakXDz+gob441Fstkrko=
+
 notifications:
-  slack:
-    secure: Qh9oyrjvvMM0+mFnFRG7PXIL/hHzkS8OBB5+KTocX2HmB5S/MJX55vDtsZSUqwlJMAMWH0bf+/LlP/is5urcLPBU7Q30GRXaEvBsbcBmrwK2OeBPa9Hu7KB6i1B47Q/8exFZkYRAc6+FTD2Rcnvsfl+dAFX6FydTWv1XGjQsVnk=
+    slack:
+        secure: Qh9oyrjvvMM0+mFnFRG7PXIL/hHzkS8OBB5+KTocX2HmB5S/MJX55vDtsZSUqwlJMAMWH0bf+/LlP/is5urcLPBU7Q30GRXaEvBsbcBmrwK2OeBPa9Hu7KB6i1B47Q/8exFZkYRAc6+FTD2Rcnvsfl+dAFX6FydTWv1XGjQsVnk=
